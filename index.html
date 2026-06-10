@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartHome IoT — 智能家居物联网监控平台</title>
+  <meta name="description" content="物联网专业课程作业 — 智能家居模拟监控平台，含传感器数据可视化、设备远程控制、告警管理">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏠</text></svg>">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+</head>
+<body>
+  <!-- Header -->
+  <header class="app-header">
+    <h1 class="app-title">🏠 SmartHome IoT</h1>
+    <div class="header-info">
+      <span class="status-dot" id="systemStatus" title="系统运行中"></span>
+      <span class="clock" id="liveClock">--:--:--</span>
+      <span class="alert-bell" id="alertBell" title="告警">🔔<span class="alert-badge" id="alertBadge">0</span></span>
+    </div>
+  </header>
+
+  <!-- Tab Nav -->
+  <nav class="tab-nav">
+    <button class="tab-btn active" data-tab="dashboard">🏠 仪表盘</button>
+    <button class="tab-btn" data-tab="monitor">📊 数据监控</button>
+    <button class="tab-btn" data-tab="control">🎛️ 设备控制</button>
+    <button class="tab-btn" data-tab="alerts">⚙️ 告警管理</button>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="tab-content" id="tabContent">
+    <!-- Dashboard -->
+    <section class="tab-panel active" id="panel-dashboard">
+      <div class="overview-cards" id="overviewCards"></div>
+      <div class="room-grid" id="roomGrid"></div>
+      <div class="recent-alerts" id="recentAlerts">
+        <h3>📋 最近告警</h3>
+        <div class="alert-list" id="alertListMini">暂无告警</div>
+      </div>
+    </section>
+
+    <!-- Monitor -->
+    <section class="tab-panel" id="panel-monitor">
+      <div class="monitor-controls">
+        <label>房间: <select id="monitorRoom"></select></label>
+        <label>指标: <select id="monitorMetric">
+          <option value="temperature">🌡️ 温度</option>
+          <option value="humidity">💧 湿度</option>
+          <option value="light">☀️ 光照</option>
+          <option value="smoke">💨 烟雾</option>
+        </select></label>
+        <label>显示: <select id="monitorRange">
+          <option value="60">最近60秒</option>
+          <option value="120" selected>最近120秒</option>
+          <option value="300">最近300秒</option>
+        </select></label>
+      </div>
+      <div class="chart-wrapper">
+        <canvas id="sensorChart"></canvas>
+      </div>
+      <div class="chart-fallback" id="chartFallback" style="display:none;">图表加载失败，请检查网络连接</div>
+    </section>
+
+    <!-- Control -->
+    <section class="tab-panel" id="panel-control">
+      <div class="device-panels" id="devicePanels"></div>
+    </section>
+
+    <!-- Alerts -->
+    <section class="tab-panel" id="panel-alerts">
+      <div class="alert-config">
+        <h3>⚙️ 告警阈值配置</h3>
+        <div class="threshold-grid" id="thresholdGrid"></div>
+      </div>
+      <div class="alert-history">
+        <h3>📋 告警历史
+          <select id="alertFilter" class="alert-filter">
+            <option value="all">全部类型</option>
+            <option value="高温告警">🔥 高温</option>
+            <option value="低温告警">❄️ 低温</option>
+            <option value="高湿告警">💧 高湿</option>
+            <option value="烟雾告警">💨 烟雾</option>
+          </select>
+          <label class="sound-toggle"><input type="checkbox" id="soundToggle" checked> 🔊 声音</label>
+          <button id="clearAlertsBtn" class="btn-sm">清除记录</button>
+        </h3>
+        <div class="alert-table-wrap">
+          <table class="alert-table" id="alertTable">
+            <thead><tr><th>时间</th><th>房间</th><th>类型</th><th>数值</th><th>阈值</th></tr></thead>
+            <tbody id="alertTableBody"><tr><td colspan="5">暂无告警记录</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <span>SmartHome IoT v1.0 — 物联网智能家居模拟监控平台</span>
+    <span>数据每2秒刷新 | 模拟传感器数据</span>
+  </footer>
+
+  <script src="js/rooms.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/simulator.js"></script>
+  <script src="js/dashboard.js"></script>
+  <script src="js/monitor.js"></script>
+  <script src="js/control.js"></script>
+  <script src="js/alert.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
